@@ -1,9 +1,9 @@
-name: merge
+name: squash
 
 on:
   pull_request_review:
     types: [submitted]
-    branches: ['master']
+    branches: ['feature/teamA']
 
 jobs:
   check-state:
@@ -14,4 +14,4 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: merge
-        run: gh pr merge --merge --auto "$PR_URL"
+        run: gh pr merge --merge --squash --auto "$PR_URL"
