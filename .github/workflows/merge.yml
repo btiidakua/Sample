@@ -3,6 +3,7 @@ name: merge
 on:
   pull_request_review:
     types: [submitted]
+    branches: ['master']
 
 jobs:
   check-state:
