@@ -1,0 +1,17 @@
+name: squash
+
+on:
+  pull_request_review:
+    types: [submitted]
+    branches: ['feature/teamA']
+
+jobs:
+  check-state:
+    if: github.event.review.state == 'approved'
+    runs-on: ubuntu-latest
+    env:
+      PR_URL: ${{github.event.pull_request.html_url}}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: merge
+        run: gh pr merge --merge --squash --auto "$PR_URL"
