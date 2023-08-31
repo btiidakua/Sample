@@ -3,11 +3,10 @@ name: merge
 on:
   pull_request_review:
     types: [submitted]
-    branches: ['master']
 
 jobs:
-  check-state:
-    if: github.event.review.state == 'approved'
+  merge:
+    if: github.event.review.state == 'approved' && contains(github.base_ref, 'develop')
     runs-on: ubuntu-latest
     env:
       PR_URL: ${{github.event.pull_request.html_url}}
@@ -15,3 +14,12 @@ jobs:
     steps:
       - name: merge
         run: gh pr merge --merge --auto "$PR_URL"
+  squash:
+    if: github.event.review.state == 'approved' && contains(github.base_ref, 'feature/teamA')
+    runs-on: ubuntu-latest
+    env:
+      PR_URL: ${{github.event.pull_request.html_url}}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: merge
+        run: gh pr merge --squash --auto "$PR_URL"
