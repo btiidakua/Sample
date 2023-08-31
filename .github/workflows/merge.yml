@@ -6,7 +6,7 @@ on:
 
 jobs:
   merge:
-    if: github.event.review.state == 'approved' && contains(github.base_ref, 'main')
+    if: github.event.review.state == 'approved' && contains(github.base_ref, 'develop')
     runs-on: ubuntu-latest
     env:
       PR_URL: ${{github.event.pull_request.html_url}}
