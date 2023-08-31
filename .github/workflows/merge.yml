@@ -6,7 +6,7 @@ on:
 
 jobs:
   merge:
-    if: github.event.review.state == 'approved' && contains(github.base_ref, 'develop')
+    if: github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'develop'
     runs-on: ubuntu-latest
     env:
       PR_URL: ${{github.event.pull_request.html_url}}
@@ -15,7 +15,7 @@ jobs:
       - name: merge
         run: gh pr merge --merge --auto "$PR_URL"
   squash:
-    if: github.event.review.state == 'approved' && contains(github.base_ref, 'feature/teamA')
+    if: github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'feature/teamA'
     runs-on: ubuntu-latest
     env:
       PR_URL: ${{github.event.pull_request.html_url}}
